@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <limits.h>
 #include "sorting.h"
 
 /* function to swap to integers */
@@ -7,6 +11,73 @@ void swap (int *a, int *b)
 	int temp = *a;
 	*a = *b;
 	*b = temp;
+}
+
+/* function to print a given array */
+
+void print (int *array, int size)
+{
+	int i;
+
+	for(i = 0; i < size; i++)
+		printf("%d ", array[i]);
+	printf("\n\n");
+}
+
+/* function to generate a random array of given size */
+
+int *generate_array (int size)
+{
+	int *array;
+	int i;
+
+	/* randomizing the seed for rand to generate unique values */
+	srand(time(NULL));
+
+	/* allocating memory from the heap to the array */
+	array= malloc(sizeof(int) * size);
+
+	for(i = 0; i < size; i++)
+		array[i] = rand() % INT_MAX;
+
+	/* returning address pointing to array memory block */
+	return array;
+}
+
+/* function to destroy an array created by generate_array */
+
+void destroy_array (int **array_reference, int size)
+{
+	int i;
+	int *temp = *array_reference;
+
+	/* setting values in the memory to zero */
+	for(i = 0; i < size; i++)
+		temp[i] = 0;
+
+	/* freeing allocated memory */
+	free (temp);
+
+	/* getting rid of the dangling pointer */
+	*array_reference = NULL;
+}
+
+/* function to check if array is sorted */
+
+int is_sorted (int *array, int size)
+{
+	int i, flag;
+
+	for(i = 0, flag = 1; i < size - 1; i++)
+	{
+		if(array[i] > array[i + 1])
+		{
+			flag = 0;
+			break;
+		}
+	}
+
+	return flag;
 }
 
 /* function to implement selection sort on given array of integers */
