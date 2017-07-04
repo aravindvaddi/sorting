@@ -137,3 +137,28 @@ void sort_bubble (int *array, int size)
 			break;
 	}
 }
+
+/* function to implement insertion sort on given array of integers */
+
+void sort_insertion (int *array, int size)
+{
+	int val, separator, counter;
+
+	/*
+		separator separates the sorted and unsorted part of an array.
+		array to the left of the separator is sorted and from the separator is unsorted
+		initially there's just one element in the sorted part as set of one is always sorted.
+	*/
+
+	for(separator = 1; separator < size; separator++)
+	{
+		/* storing value at the separator in the val variable, this will be inserted in it's appropriate place in the array */
+		for(counter = separator, val = array[separator]; counter > 0 && array[counter - 1] > val; counter--)
+		{
+			/* as long as the element before the counter pointing element is greater, counter pointing value gets updated to it. */
+			array[counter] = array[counter - 1];
+		}
+		/* counter value is at it's appropriate place */
+		array[counter] = val;
+	}
+}

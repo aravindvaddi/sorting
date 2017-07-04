@@ -11,4 +11,6 @@ int is_sorted (int *array, int size);
 /* core sort functions */
 void sort_selection (int *array, int size);
 void sort_bubble (int *array, int size);
+void sort_insertion (int *array, int size);
+
 #endif
