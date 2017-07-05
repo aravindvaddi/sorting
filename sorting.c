@@ -162,3 +162,61 @@ void sort_insertion (int *array, int size)
 		array[counter] = val;
 	}
 }
+
+/* function to implement mergesort on a given array of integers */
+
+void sort_merge(int *array, int size)
+{
+	/*
+		variables for:
+			- right array size
+			- left array size
+			- counter variables
+			- pointers to hold left and right sub arrays
+	*/
+	int rs, ls, i, j, k;
+	int *left, *right;
+
+	/* base case */
+	if(size < 2)
+		return;
+
+	/* deciding size of left and right sub arrays */
+	ls = size / 2;
+	rs = size - ls;
+
+	/* allocating memory for the sub arrays from the heap */
+	left = malloc(sizeof(int) * ls);
+	right = malloc(sizeof(int) * rs);
+
+	/* copying values into left and right sub arrays from the main array */
+	for(i = k = 0; i < ls; i++, k++)
+		left[i] = array[k];
+
+	for(j = 0; j < rs; j++, k++)
+		right[j] = array[k];
+
+	/* recursive calls to divide the problem */
+	sort_merge(left, ls);
+	sort_merge(right, rs);
+
+	/* merging the sorted subarrays (base case where an array of size 1 is already sorted is being utilized)*/
+	for(i = j = k = 0; i < ls && j < rs; k++)
+	{
+		if(left[i] <= right[j])
+			array[k] = left[i++];
+		else
+			array[k] = right[j++];
+	}
+
+	/* adding the remaining elements incase the arrays are not equally exhausted */
+	while(i < ls)
+		array[k++] = left[i++];
+
+	while(j < rs)
+		array[k++] = right[j++];
+
+	/* freeing allocated memory */
+	free(left);
+	free(right);
+}

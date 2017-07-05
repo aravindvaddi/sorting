@@ -12,5 +12,6 @@ int is_sorted (int *array, int size);
 void sort_selection (int *array, int size);
 void sort_bubble (int *array, int size);
 void sort_insertion (int *array, int size);
+void sort_merge (int *array, int size);
 
 #endif
