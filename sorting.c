@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <limits.h>
+#include <string.h>
 #include "sorting.h"
 
 /* function to swap to integers */
@@ -21,7 +22,7 @@ void print (int *array, int size)
 
 	for(i = 0; i < size; i++)
 		printf("%d ", array[i]);
-	printf("\n\n");
+	printf("\n");
 }
 
 /* function to generate a random array of given size */
@@ -78,6 +79,73 @@ int is_sorted (int *array, int size)
 	}
 
 	return flag;
+}
+
+void check_array_and_print(int *array, int size, int code)
+{
+	switch(code)
+	{
+		case SELECTION:
+			printf("selection sort:\n");
+			break;
+		case BUBBLE:
+			printf("bubble sort:\n");
+			break;
+		case INSERTION:
+			printf("insertion sort:\n");
+			break;
+		case MERGE:
+			printf("merge sort:\n");
+			break;
+		case QUICK:
+			printf("quick sort:\n");
+			break;
+		case COUNTING:
+			printf("counting sort:\n");
+			break;
+		default :
+			printf("unsorted array:\n");
+			break;
+	}
+	print(array, size);
+	printf("The array is %s\n\n", is_sorted(array, size) ? "sorted" : "unsorted");
+}
+
+
+/* function to test working of different sorting algorithms */
+
+void test(int size, int max, int code)
+{
+	int *array;
+
+	array = generate_array(size, max);
+	check_array_and_print(array, size, 0);
+	switch(code)
+	{
+		case SELECTION:
+			sort_selection(array, size);
+			break;
+		case BUBBLE:
+			sort_bubble(array,size);
+			break;
+		case INSERTION:
+			sort_insertion(array,size);
+			break;
+		case MERGE:
+			sort_merge(array,size);
+			break;
+		case QUICK:
+			sort_quick(array,size);
+			break;
+		case COUNTING:
+			sort_counting(array,size);
+			break;
+		default :
+			break;
+	}
+
+	check_array_and_print(array, size, code);
+	destroy_array(&array, size);
 }
 
 /* function to implement selection sort on given array of integers */
@@ -307,4 +375,49 @@ void sort_quick (int *array, int size)
 
 	if(start < end)
 		lib_qsort(array, start, end);
+}
+
+/* function to implement counting sort */
+
+void sort_counting (int *array, int size)
+{
+	/* initializing result pointer to hold result array, count pointer to hold count of occurances of elements */
+	int *result, *count, i, range;
+
+	/* allocation of memory to store result array, size same as input array */
+	result = malloc(sizeof(int) * size);
+
+	/* finding max element of the input array, essentially, the range */
+	for(i = range = 0; i < size; i++)
+		if(array[i] > range)
+			range = array[i];
+
+	/* allocation of memory to store count array, to store count of occurances of input elements */
+	count = malloc(sizeof(int) * (range + 1));
+
+	/* initializing count to zero */
+	memset(count, 0, sizeof(count));
+
+	/* storing count of occurances of input elements */
+	for(i = 0; i < size; i++)
+		count[array[i]]++;
+
+	/* storing cumulative sum of counts in the next element */
+	for(i = 1; i < range + 1; i++)
+		count[i] += count[i - 1];
+
+	/* storing result in result array, getting position using cumulative counts stored in count array, subtracting by 1 to adjust offset (consider count[0] = 0, count[1] = 2, 1 should occupy 0,1 in the result. without offset it occupies 1, 2 causing overflow) */
+	for(i = 0; i < size; i++)
+	{
+		result[count[array[i]] - 1] = array[i];
+		/* accounting for removal of an element from needing to be sorted */
+		count[array[i]]--;
+	}
+
+	/* storing result in the given array */
+	for(i = 0; i < size; i++)
+		array[i] = result[i];
+
+	free(result);
+	free(count);
 }

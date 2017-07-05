@@ -14,31 +14,11 @@ int main ()
 	scanf("%d", &max);
 	printf("\n");
 
-	a = generate_array(size, max);
-	printf("The array is %s\n", is_sorted(a, size) ? "sorted" : "unsorted");
-	print(a, size);
-
-	sort_selection(a, size);
-	printf("The array is %s\n", is_sorted(a, size) ? "sorted" : "unsorted");
-	print(a, size);
-
-	sort_bubble(a, size);
-	printf("The array is %s\n", is_sorted(a, size) ? "sorted" : "unsorted");
-	print(a, size);
-
-	sort_bubble(a, size);
-	printf("The array is %s\n", is_sorted(a, size) ? "sorted" : "unsorted");
-	print(a, size);
-
-	sort_merge(a, size);
-	printf("The array is %s\n", is_sorted(a, size) ? "sorted" : "unsorted");
-	print(a, size);
-
-	sort_quick(a, size);
-	printf("The array is %s\n", is_sorted(a, size) ? "sorted" : "unsorted");
-	print(a, size);
-
-	destroy_array(&a, size);
-
+	test(size, max, SELECTION);
+	test(size, max, BUBBLE);
+	test(size, max, INSERTION);
+	test(size, max, MERGE);
+	test(size, max, QUICK);
+	test(size, max, COUNTING);
 	return 0;
 }
