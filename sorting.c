@@ -220,3 +220,91 @@ void sort_merge(int *array, int size)
 	free(left);
 	free(right);
 }
+
+/*
+	library function to help quick sort.
+
+		- partitions an array and returns a pivot index
+		- elements to the left of pivot are smaller and right are greater
+*/
+
+int lib_qsort_partition (int *array, int start, int end)
+{
+	int pivot, partition_index, i;
+
+	/* setting the pivot value to the element at the last index */
+	pivot = array[end];
+
+	/* traversing the remaining array (except the last index) to partition it */
+	for(i = partition_index = start; i < end; i++)
+	{
+		/* if a value at a position is less than the pivot value it is swapped to the left of pivot index */
+		if(array[i] <= pivot)
+		{
+			/* swapping the current element with the element at partition_index and incrementing it */
+			swap(&array[i], &array[partition_index]);
+			partition_index++;
+		}
+	}
+
+	/* swapping the element at partition index with the pivot element, that is the last element (as we assumed last element to be the pivot) */
+	swap(&array[end], &array[partition_index]);
+
+	/* returning the index of pivot */
+	return partition_index;
+}
+
+/*
+	library function to help quick sort
+		- randomizes the selection of a pivot element
+		- this highly decreases probability of hitting worst case on every recursive call
+*/
+
+int lib_qsort_randomized_partition (int *array, int start, int end)
+{
+	int partition_index;
+
+	/* seeding rand() */
+	srand(time(NULL));
+
+	/* selecting a random partition index between start and end */
+	partition_index = (rand() % (end - start + 1)) + start;
+
+	/* making the element at partition index the pivot (because partition function chooses the element at the end as a pivot) */
+	swap(&array[partition_index], &array[end]);
+
+	/* calling partition function so we can return a pivot index */
+	return lib_qsort_partition(array, start, end);
+}
+
+/*
+	library function to help quick sort
+		- partitions the given array
+		- calls itself recursively on the left and right of the pivot acquired by partitioning
+*/
+
+void lib_qsort(int *array, int start, int end)
+{
+	int partition_index;
+
+	/* base case to end recursion */
+	if(start < end)
+	{
+		partition_index = lib_qsort_randomized_partition (array, start, end);
+		lib_qsort(array, start, partition_index - 1);
+		lib_qsort(array, partition_index + 1, end);
+	}
+}
+
+/* function to implement quick sort on a given array of integers */
+
+void sort_quick (int *array, int size)
+{
+	int start, end;
+
+	start = 0;
+	end = size - 1;
+
+	if(start < end)
+		lib_qsort(array, start, end);
+}

@@ -30,6 +30,10 @@ int main ()
 	printf("The array is %s\n", is_sorted(a, size) ? "sorted" : "unsorted");
 	print(a, size);
 
+	sort_quick(a, size);
+	printf("The array is %s\n", is_sorted(a, size) ? "sorted" : "unsorted");
+	print(a, size);
+
 	destroy_array(&a, size);
 
 	return 0;
