@@ -4,13 +4,17 @@
 int main ()
 {
 	int *a;
-	int i, size;
+	int i, size, max;
 	
 	printf("Enter size of array: \n");
 	scanf("%d", &size);
 	printf("\n");
 
-	a = generate_array(size);
+	printf("Enter max range of array: \n");
+	scanf("%d", &max);
+	printf("\n");
+
+	a = generate_array(size, max);
 	printf("The array is %s\n", is_sorted(a, size) ? "sorted" : "unsorted");
 	print(a, size);
 

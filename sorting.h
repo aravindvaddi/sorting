@@ -4,7 +4,7 @@
 /* helper functions */
 void swap (int *a, int *b);
 void print (int *array, int size);
-int *generate_array(int size);
+int *generate_array(int size, int max);
 void destroy_array (int **array_reference, int size);
 int is_sorted (int *array, int size);
 

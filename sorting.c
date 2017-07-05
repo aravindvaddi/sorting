@@ -26,7 +26,7 @@ void print (int *array, int size)
 
 /* function to generate a random array of given size */
 
-int *generate_array (int size)
+int *generate_array (int size, int max)
 {
 	int *array;
 	int i;
@@ -38,7 +38,7 @@ int *generate_array (int size)
 	array= malloc(sizeof(int) * size);
 
 	for(i = 0; i < size; i++)
-		array[i] = rand() % INT_MAX;
+		array[i] = rand() % max;
 
 	/* returning address pointing to array memory block */
 	return array;
